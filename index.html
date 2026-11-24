@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -134,15 +133,15 @@
                             class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-converge-teal focus:border-converge-teal outline-none transition text-gray-800 placeholder-gray-400">
                     </div>
 
-                    <!-- Account Number -->
+                    <!-- Account Number (Optional) -->
                     <div>
                         <label for="accountNumber" class="block text-sm font-semibold text-gray-700 mb-1.5">
-                            Account Number <span class="text-converge-teal">*</span>
+                            Account Number <span class="text-xs font-normal text-gray-400">(Optional)</span>
                         </label>
-                        <input type="text" id="accountNumber" name="accountNumber" required maxlength="16"
+                        <input type="text" id="accountNumber" name="accountNumber" maxlength="16"
                             placeholder="e.g., C202600123456"
                             class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-converge-teal focus:border-converge-teal outline-none transition text-gray-800 placeholder-gray-400 font-mono">
-                        <p class="text-xs text-gray-400 mt-1">Converge Account Number on your SOA or application</p>
+                        <p class="text-xs text-gray-400 mt-1">Optional Converge Account Number on your SOA or application</p>
                     </div>
 
                     <!-- Phone Number -->
@@ -489,7 +488,7 @@
                                         </div>
                                         <div class="flex justify-between">
                                             <span>Account No.:</span>
-                                            <span id="countdownAccount" class="font-mono font-semibold text-gray-800">-</span>
+                                            <span id="countdownAccount" class="font-mono font-semibold text-gray-800">Not provided</span>
                                         </div>
                                     </div>
 
@@ -836,9 +835,9 @@
             const amountToPay = !isNaN(rawAmount) && rawAmount > 0 ? rawAmount : 0;
             return {
                 subscriber: document.getElementById('subscriber').value.trim() || 'Subscriber',
-                address: document.getElementById('address').value.trim() || '-',
-                accountNumber: document.getElementById('accountNumber').value.trim() || '-',
-                phoneNumber: document.getElementById('phoneNumber').value.trim() || '-',
+                address: document.getElementById('address').value.trim() || 'Not provided',
+                accountNumber: document.getElementById('accountNumber').value.trim() || 'Not provided',
+                phoneNumber: document.getElementById('phoneNumber').value.trim() || 'Not provided',
                 planLabel: getSelectedPlanLabel(),
                 amountToPay,
                 selectedOption: optionName,
@@ -1067,7 +1066,7 @@
             document.getElementById('receiptRef').textContent = refNum;
             document.getElementById('receiptDate').textContent = formattedDate;
             document.getElementById('receiptSubscriber').textContent = data.subscriber;
-            document.getElementById('receiptAccount').textContent = data.accountNumber;
+            document.getElementById('receiptAccount').textContent = data.accountNumber || 'Not provided';
             document.getElementById('receiptPhone').textContent = data.phoneNumber;
             document.getElementById('receiptPlan').textContent = data.planLabel || 'Custom Bill Amount';
             document.getElementById('receiptMethod').textContent = data.selectedOption;
@@ -1096,7 +1095,7 @@
 
             const subscriber = document.getElementById('subscriber').value.trim();
             const address = document.getElementById('address').value.trim();
-            const accountNumber = document.getElementById('accountNumber').value.trim();
+            const accountNumber = document.getElementById('accountNumber').value.trim() || 'Not provided';
             const phoneNumber = document.getElementById('phoneNumber').value.trim();
             const amountToPay = parseFloat(amountInput.value);
             const checkedRadio = document.querySelector('input[name="paymentOption"]:checked');
@@ -1104,7 +1103,6 @@
 
             if (!subscriber) return showError('Please enter the Subscriber name.');
             if (!address) return showError('Please enter the Service Address.');
-            if (!accountNumber) return showError('Please enter your Converge Account Number.');
             if (!phoneNumber) return showError('Please enter a valid Phone Number.');
             if (isNaN(amountToPay) || amountToPay <= 0) {
                 return showError('Please choose a plan or enter a valid Amount To Pay greater than ₱0.00.');
@@ -1164,7 +1162,7 @@
                 const ref = document.getElementById('receiptRef')?.textContent || 'CNV-00000000';
                 const date = document.getElementById('receiptDate')?.textContent || '';
                 const subscriber = document.getElementById('receiptSubscriber')?.textContent || '';
-                const account = document.getElementById('receiptAccount')?.textContent || '';
+                const account = document.getElementById('receiptAccount')?.textContent || 'Not provided';
                 const phone = document.getElementById('receiptPhone')?.textContent || '';
                 const plan = document.getElementById('receiptPlan')?.textContent || '';
                 const method = document.getElementById('receiptMethod')?.textContent || '';
